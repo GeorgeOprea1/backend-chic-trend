@@ -23,7 +23,7 @@ app.post("/checkout", async (req, res) => {
     line_items: lineItems,
     mode: "payment",
     success_url: "https://chic-trend.netlify.app/success",
-    cancel_url: "https://chic-trend.netlify.app/cancel",
+    cancel_url: "https://chic-trend.netlify.app/",
   });
 
   res.json({
