@@ -11,16 +11,20 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "dist")));
 
-app.get(/^\/(?!success|cancel).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"), function (err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 app.get("/success", (req, res) => {
-  res.redirect("https://chic-trend-boutique.onrender.com/success");
+  res.redirect("/success");
 });
 
 app.get("/cancel", (req, res) => {
-  res.redirect("https://chic-trend-boutique.onrender.com/cancel");
+  res.redirect("/cancel");
 });
 
 app.post("/checkout", async (req, res) => {
@@ -33,12 +37,15 @@ app.post("/checkout", async (req, res) => {
     });
   });
 
+  const successUrl = "/success";
+  const cancelUrl = "/cancel";
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
-    success_url: "https://chic-trend-boutique.onrender.com/success",
-    cancel_url: "https://chic-trend-boutique.onrender.com/cancel",
+    success_url: successUrl,
+    cancel_url: cancelUrl,
   });
 
   res.json({
