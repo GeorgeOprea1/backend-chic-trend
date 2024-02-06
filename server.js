@@ -30,8 +30,8 @@ app.post("/checkout", async (req, res) => {
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
-    success_url: "https://chic-trend-boutique.onrender.com",
-    cancel_url: "https://chic-trend-boutique.onrender.com",
+    success_url: "https://chic-trend-boutique.onrender.com/success",
+    cancel_url: "https://chic-trend-boutique.onrender.com/cancel",
   });
 
   res.json({
