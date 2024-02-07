@@ -6,14 +6,13 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static("boutique"));
 
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "dist/index.html"), function (err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
+const corsOptions = {
+  origin: `${process.env.CLIENT_URL}`,
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.post("/checkout", async (req, res) => {
   const items = req.body.items;
@@ -29,8 +28,8 @@ app.post("/checkout", async (req, res) => {
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
-    success_url: "https://chic-trend-boutique.onrender.com/success",
-    cancel_url: "https://chic-trend-boutique.onrender.com/cancel",
+    success_url: `${process.env.CLIENT_URL}/success`,
+    cancel_url: `${process.env.CLIENT_URL}/cancel`,
   });
 
   res.json({
