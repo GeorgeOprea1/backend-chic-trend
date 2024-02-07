@@ -6,11 +6,7 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 const app = express();
 
-const corsOptions = {
-  origin: "https://chic-trend-boutique.onrender.com",
-  credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.post("/checkout", async (req, res) => {
   const items = req.body.items;
