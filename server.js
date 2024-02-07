@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: `${process.env.CLIENT_URL}`,
+  origin: "https://chic-trend-boutique.onrender.com",
   credentials: true,
 };
 app.use(cors(corsOptions));
